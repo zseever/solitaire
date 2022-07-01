@@ -1,14 +1,21 @@
+html {
+    box-sizing:border-box;
+    height:100vh;
+    width:100vw;
+}
 body {
     background-color: rgb(20, 95, 14);
     font-size: 5vmin;
     margin:0;
+    height:100vh;
+    width:100vw;
 }
 
 header {
     display: flex;
     justify-content: center;
     align-items: center;
-    height:10vh;
+    height:10%;
     background-color: rgb(68, 67, 67);
     color:white;
 }
@@ -18,16 +25,19 @@ header {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 90vh;
+    height: 90%;
 }
 
-div > div {
+.arr {
     background-color:rgb(34, 166, 27);
-    height: 70vmin;
-    width: 150vmin;
+    height: 100%;  
+    width: 11%;
     display:flex;
-    justify-content: center;
+    flex-direction: column;
+    justify-content: start;
     align-items: center;
+    border:1px solid black; 
+    padding-top:20px;
 
 }
 
@@ -36,6 +46,15 @@ div > div {
     border:1px solid black;
 }
 
-.arr {
-    border:1px solid black; 
+
+img {
+    width: 80%;
+    background: white;
+    border: 3px solid black;
+    border-radius:5%;
+
+}
+
+img:not(:first-child) {
+    margin-top:-85px;
 }

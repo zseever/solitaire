@@ -1,8 +1,10 @@
 /*----- constants -----*/
 const CARD_DECK = createDeck();
+const numShuf = 10;
 
 /*----- app's state (variables) -----*/
 // -store arrays from main object in variables
+let shuffledDeck;
 // -Arrays used for: Deck, Drawn cards, Column piles 1-7,  and the 4 ace piles
 let cardPiles;
 // deck used to distribute cards
@@ -14,7 +16,8 @@ let moveCounter;
 // -current card/stack selected
 let currentPile;
 // Timer (extra feature)
-let count;
+//let count;
+
 
 
 /*----- cached element references -----*/
@@ -27,24 +30,34 @@ let count;
 init();
 
 function init() {
-    // cardPiles = {
-    //     mainDeck: [DECK.cardArr.slice[28]],
-    //     drawnDeck: [],
-    //     col1: [DECK.cardArr.slice[0]],
-    //     col2: [DECK.cardArr.slice[1,3]],
-    //     col3: [DECK.cardArr.slice[3,6]],
-    //     col4: [DECK.cardArr.slice[6,10]],
-    //     col5: [DECK.cardArr.slice[10,15]],
-    //     col6: [DECK.cardArr.slice[15,21]],
-    //     col7: [DECK.cardArr.slice[21,28]],
-    //     heartPile: [],
-    //     diamondPile: [],
-    //     spadesPile: [],
-    //     clubsPile: [],
-    // }
+    shuffledDeck = shuffleDeck(CARD_DECK,numShuf);
+    cardPiles = {
+        mainDeck: shuffledDeck.slice(28),
+        drawnDeck: [],
+        col1: shuffledDeck.slice(0,1),
+        col2: shuffledDeck.slice(1,3),
+        col3: shuffledDeck.slice(3,6),
+        col4: shuffledDeck.slice(6,10),
+        col5: shuffledDeck.slice(10,15),
+        col6: shuffledDeck.slice(15,21),
+        col7: shuffledDeck.slice(21,28),
+        heartPile: [],
+        diamondPile: [],
+        spadesPile: [],
+        clubsPile: [],
+    }
     gameStatus = null;
     moveCounter = 0;
     currentPile = null;
+    render();
+}
+
+function render() {
+    renderCols(1);
+}
+
+function renderCols() {
+
 }
 
 function createDeck() {
@@ -59,20 +72,19 @@ function createDeck() {
     return deck;
   }
 
-  function shuffleDeck(deck,numShuffles) {
+function shuffleDeck(deck,numShuffles) {
     let tempDeck = deck.map(card => card);
     let shuffledDeck = [];
     while (numShuffles > 0) {       
-      while (tempDeck.length > 0) {
+        while (tempDeck.length > 0) {
         let randomNum = Math.floor(Math.random()*tempDeck.length);
         shuffledDeck.push(tempDeck[randomNum]); 
         tempDeck.splice(randomNum,1);
-      };
-      numShuffles--
+        };
+        numShuffles--
     }
     return shuffledDeck;
-  }
+}
 
-shuffleDeck();
 
 
