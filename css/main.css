@@ -1,0 +1,41 @@
+body {
+    background-color: rgb(20, 95, 14);
+    font-size: 5vmin;
+    margin:0;
+}
+
+header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height:10vh;
+    background-color: rgb(68, 67, 67);
+    color:white;
+}
+
+
+.game-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 90vh;
+}
+
+div > div {
+    background-color:rgb(34, 166, 27);
+    height: 70vmin;
+    width: 150vmin;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+
+}
+
+#deck-col, #ace-col {
+    background-color: green;
+    border:1px solid black;
+}
+
+.arr {
+    border:1px solid black; 
+}
