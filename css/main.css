@@ -44,6 +44,16 @@ header {
 #deck-col, #ace-col {
     background-color: green;
     border:1px solid black;
+    display:flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+#deck-col {
+    display:flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    gap:10%;
 }
 
 
@@ -57,5 +67,12 @@ img {
 
 img:not(:first-child) {
     margin-top:-69%;
+}
+
+.piles {
+    height: 17%;
+    background-color:whitesmoke;
+    width: 65%;
+    border:1px solid black;
 }
 

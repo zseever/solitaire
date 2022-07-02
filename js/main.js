@@ -53,27 +53,38 @@ function init() {
 }
 
 function render() {
+    renderDeck();
     renderCols();
+    renderPiles();
+}
+
+function renderDeck() {
+    
 }
 
 function renderCols() {
     colEls.forEach(function(col) {
-        console.log(col);
         cardPiles[col.id].forEach(function(card, idx) {
             let tempSuit = cardPiles[col.id][idx].suit;
             let tempValue = cardPiles[col.id][idx].value;
             let tempImg = document.createElement('img');
-            if (tempValue === 'A' || tempValue === 'K' || tempValue === 'Q' || tempValue == 'J') {
+            if (idx !== cardPiles[col.id].length-1) {
+                tempImg.src = `css/card-deck-css/images/backs/blue.svg`;
+            } else if (tempValue === 'A' || tempValue === 'K' || tempValue === 'Q' || tempValue == 'J') {
                 tempImg.src = `css/card-deck-css/images/${tempSuit}/${tempSuit}-${tempValue}.svg`;
             } else if (tempValue === 10) {
                 tempImg.src = `css/card-deck-css/images/${tempSuit}/${tempSuit}-r${tempValue}.svg`
             } else {
                 tempImg.src = `css/card-deck-css/images/${tempSuit}/${tempSuit}-r0${tempValue}.svg`
             }
-            
+            if (idx !== cardPiles[col.id].length-1) tempImg
             col.appendChild(tempImg);
         });
     });
+}
+
+function renderPiles() {
+
 }
 
 function createDeck() {
