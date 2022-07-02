@@ -59,11 +59,14 @@ function render() {
 }
 
 function renderDeck() {
-    
+
 }
 
 function renderCols() {
     colEls.forEach(function(col) {
+        while (col.firstChild) {
+            col.removeChild(col.firstChild);
+        }
         cardPiles[col.id].forEach(function(card, idx) {
             let tempSuit = cardPiles[col.id][idx].suit;
             let tempValue = cardPiles[col.id][idx].value;
