@@ -80,7 +80,6 @@ function renderCols() {
             } else {
                 tempImg.src = `css/card-deck-css/images/${tempSuit}/${tempSuit}-r0${tempValue}.svg`
             }
-            if (idx !== cardPiles[col.id].length-1) tempImg
             col.appendChild(tempImg);
         });
     });
@@ -107,13 +106,17 @@ function shuffleDeck(deck,numShuffles) {
     let shuffledDeck = [];
     while (numShuffles > 0) {       
         while (tempDeck.length > 0) {
-        let randomNum = Math.floor(Math.random()*tempDeck.length);
-        shuffledDeck.push(tempDeck[randomNum]); 
-        tempDeck.splice(randomNum,1);
+            let randomNum = Math.floor(Math.random()*tempDeck.length);
+            shuffledDeck.push(tempDeck[randomNum]); 
+            tempDeck.splice(randomNum,1);
         };
         numShuffles--
+        tempDeck = shuffledDeck.map(card => card);
+        shuffledDeck = [];
+        console.log(tempDeck);
     }
-    return shuffledDeck;
+    console.log(tempDeck);
+    return tempDeck;
 }
 
 
