@@ -21,7 +21,7 @@ let currentPile;
 
 
 /*----- cached element references -----*/
-
+const colEls = document.querySelectorAll('.pyr');
 
 /*----- event listeners -----*/
 
@@ -53,11 +53,27 @@ function init() {
 }
 
 function render() {
-    renderCols(1);
+    renderCols();
 }
 
 function renderCols() {
-
+    colEls.forEach(function(col) {
+        console.log(col);
+        cardPiles[col.id].forEach(function(card, idx) {
+            let tempSuit = cardPiles[col.id][idx].suit;
+            let tempValue = cardPiles[col.id][idx].value;
+            let tempImg = document.createElement('img');
+            if (tempValue === 'A' || tempValue === 'K' || tempValue === 'Q' || tempValue == 'J') {
+                tempImg.src = `css/card-deck-css/images/${tempSuit}/${tempSuit}-${tempValue}.svg`;
+            } else if (tempValue === 10) {
+                tempImg.src = `css/card-deck-css/images/${tempSuit}/${tempSuit}-r${tempValue}.svg`
+            } else {
+                tempImg.src = `css/card-deck-css/images/${tempSuit}/${tempSuit}-r0${tempValue}.svg`
+            }
+            
+            col.appendChild(tempImg);
+        });
+    });
 }
 
 function createDeck() {
