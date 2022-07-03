@@ -26,12 +26,12 @@ const colEls = document.querySelectorAll('.pyr');
 const rPileEls = document.querySelectorAll('.right');
 const deckEl = document.getElementById('deck');
 const drawnEl = document.getElementById('drawn-deck');
+const gameContainer = document.querySelector('.game-container');
 
 /*----- event listeners -----*/
-// colEls.addEventListener('click', handleClick);
-// rPileEls.addEventListener('click', handleClick);
-deckEl.addEventListener('click', drawCard);
-drawnEl.addEventListener('click', handleClick);
+gameContainer.addEventListener('click',handleClick);
+// deckEl.addEventListener('click', drawCard);
+// drawnEl.addEventListener('click', handleClick);
 
 
 /*----- functions -----*/
@@ -128,22 +128,34 @@ function drawCard() {
     } else {
         cardPiles.drawnDeck.push(cardPiles.mainDeck.pop());
     }
-    renderMainDeck();
-    renderDrawnDeck();
+}
+
+function setMoves(evt) {
+    if (currentPile && targetPile) {
+        currentPile = evt.target.parentElement;
+        targetPile = null;
+    } else if (currentPile) {
+        targetPile = evt.target.parentElement;
+    } else {
+        currentPile = evt.target.parentElement;
+    }
 }
 
 function handleClick(evt) {
-    if (currentPile && targetPile) {
-        currentPile = evt.target
-        targetPile = null;
-    } else if (currentPile) {
-        targetPile = evt.target;
+    let elmnt = evt.target;
+    if (elmnt.parentElement.id === 'deck'|| elmnt.id === 'deck') {
+        drawCard();
+    } else if (!elmnt.nextSibling) {
+        console.log('this works!');
+        setMoves(evt);
+        if (currentPile && targetPile) {
+            // isValidMove();
+            moveCard();
+        }
     } else {
-        currentPile = evt.target;
+        return
     }
-    isValidMove();
-    moveCard();
-    // render();
+    render();
 }
 
 function isValidMove() {
@@ -151,7 +163,7 @@ function isValidMove() {
 }
 
 function moveCard() {
-
+    cardPiles[targetPile.id].push(cardPiles[currentPile.id].pop());
 }
 
 function removeChildren(el) {
