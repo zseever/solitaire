@@ -70,9 +70,10 @@ img:not(:first-child) {
 }
 
 .piles {
-    height: 17%;
+    height: 23%;
     background-color:whitesmoke;
     width: 65%;
     border:1px solid black;
+    border-radius:5%;
 }
 

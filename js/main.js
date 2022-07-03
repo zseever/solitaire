@@ -22,6 +22,7 @@ let currentPile;
 
 /*----- cached element references -----*/
 const colEls = document.querySelectorAll('.pyr');
+const rPileEls = document.querySelectorAll('.right');
 const deckEl = document.getElementById('deck');
 const drawnEl = document.getElementById('drawn-deck');
 
@@ -43,8 +44,8 @@ function init() {
         col5: shuffledDeck.slice(10,15),
         col6: shuffledDeck.slice(15,21),
         col7: shuffledDeck.slice(21,28),
-        heartPile: [],
-        diamondPile: [],
+        heartsPile: [],
+        diamondsPile: [],
         spadesPile: [],
         clubsPile: [],
     }
@@ -61,12 +62,6 @@ function render() {
     renderPiles();
 }
 
-function removeChildren(el) {
-    while (el.firstChild) {
-        el.removeChild(el.firstChild);
-    }
-}
-
 function renderMainDeck() {
     removeChildren(deckEl);
     if (cardPiles.mainDeck.length) {
@@ -81,9 +76,13 @@ function renderMainDeck() {
 function renderDrawnDeck() {
     removeChildren(drawnEl);
     if (cardPiles.drawnDeck.length) {
+        let tempSuit = cardPiles.drawnDeck[cardPiles.drawnDeck.length-1].suit;
+        let tempValue = cardPiles.drawnDeck[cardPiles.drawnDeck.length-1].value;
         let tempImg = document.createElement('img');
-        tempImg.src = `css/card-deck-css/images/backs/blue.svg`;
-        deckEl.appendChild(tempImg);
+        tempImg.src = `css/card-deck-css/images/${tempSuit}/${tempSuit}-${tempValue}.svg`;
+        tempImg.style.height = '100%';
+        tempImg.style.width = '100%';
+        drawnEl.appendChild(tempImg);
     }
 }
 
@@ -94,12 +93,9 @@ function renderCols() {
             let tempSuit = cardPiles[col.id][idx].suit;
             let tempValue = cardPiles[col.id][idx].value;
             let tempImg = document.createElement('img');
+
             if (idx !== cardPiles[col.id].length-1) {
                 tempImg.src = `css/card-deck-css/images/backs/blue.svg`;
-            // } else if (tempValue === 'A' || tempValue === 'K' || tempValue === 'Q' || tempValue == 'J') {
-            //     tempImg.src = `css/card-deck-css/images/${tempSuit}/${tempSuit}-${tempValue}.svg`;
-            // } else if (tempValue === 10) {
-            //     tempImg.src = `css/card-deck-css/images/${tempSuit}/${tempSuit}-r${tempValue}.svg`
             } else {
                 tempImg.src = `css/card-deck-css/images/${tempSuit}/${tempSuit}-${tempValue}.svg`
             }
@@ -109,7 +105,25 @@ function renderCols() {
 }
 
 function renderPiles() {
+    rPileEls.forEach(function(pile) {
+        removeChildren(pile)
+        let suitPile = pile.id;
+        if (cardPiles[suitPile].length) {
+            let tempSuit = cardPiles[suitPile][cardPiles[suitPile].length-1].suit;
+            let tempValue = cardPiles[suitPile][cardPiles[suitPile].length-1].value;
+            let tempImg = document.createElement('img');
+            tempImg.src = `css/card-deck-css/images/${tempSuit}/${tempSuit}-${tempValue}.svg`;
+            tempImg.style.height = '100%';
+            tempImg.style.width = '100%';
+            pile.appendChild(tempImg);
+        }
+    })
+}
 
+function removeChildren(el) {
+    while (el.firstChild) {
+        el.removeChild(el.firstChild);
+    }
 }
 
 function createDeck() {
