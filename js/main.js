@@ -15,6 +15,7 @@ let gameStatus;
 let moveCounter;
 // -current card/stack selected
 let currentPile;
+let targetPile;
 // Timer (extra feature)
 //let count;
 
@@ -27,6 +28,10 @@ const deckEl = document.getElementById('deck');
 const drawnEl = document.getElementById('drawn-deck');
 
 /*----- event listeners -----*/
+// colEls.addEventListener('click', handleClick);
+// rPileEls.addEventListener('click', handleClick);
+deckEl.addEventListener('click', drawCard);
+drawnEl.addEventListener('click', handleClick);
 
 
 /*----- functions -----*/
@@ -65,7 +70,7 @@ function render() {
 function renderMainDeck() {
     removeChildren(deckEl);
     if (cardPiles.mainDeck.length) {
-        generateImg(deckEl,'back',)
+        generateImg(deckEl,'back','mainDeck')
     }
 }
 
@@ -114,6 +119,39 @@ function generateImg(ele,face,pile) {
     tempImg.style.height = '100%';
     tempImg.style.width = '100%';
     ele.appendChild(tempImg);    
+}
+
+function drawCard() {
+    if (cardPiles.mainDeck.length === 0) {
+        cardPiles.mainDeck = shuffleDeck(cardPiles.drawnDeck,numShuf);
+        cardPiles.drawnDeck = [];
+    } else {
+        cardPiles.drawnDeck.push(cardPiles.mainDeck.pop());
+    }
+    renderMainDeck();
+    renderDrawnDeck();
+}
+
+function handleClick(evt) {
+    if (currentPile && targetPile) {
+        currentPile = evt.target
+        targetPile = null;
+    } else if (currentPile) {
+        targetPile = evt.target;
+    } else {
+        currentPile = evt.target;
+    }
+    isValidMove();
+    moveCard();
+    // render();
+}
+
+function isValidMove() {
+
+}
+
+function moveCard() {
+
 }
 
 function removeChildren(el) {
