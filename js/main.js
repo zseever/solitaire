@@ -22,6 +22,8 @@ let currentPile;
 
 /*----- cached element references -----*/
 const colEls = document.querySelectorAll('.pyr');
+const deckEl = document.getElementById('deck');
+const drawnEl = document.getElementById('drawn-deck');
 
 /*----- event listeners -----*/
 
@@ -53,32 +55,53 @@ function init() {
 }
 
 function render() {
-    renderDeck();
+    renderMainDeck();
+    renderDrawnDeck();
     renderCols();
     renderPiles();
 }
 
-function renderDeck() {
+function removeChildren(el) {
+    while (el.firstChild) {
+        el.removeChild(el.firstChild);
+    }
+}
 
+function renderMainDeck() {
+    removeChildren(deckEl);
+    if (cardPiles.mainDeck.length) {
+        let tempImg = document.createElement('img');
+        tempImg.src = `css/card-deck-css/images/backs/blue.svg`;
+        tempImg.style.height = '100%';
+        tempImg.style.width = '100%';
+        deckEl.appendChild(tempImg);
+    }
+}
+
+function renderDrawnDeck() {
+    removeChildren(drawnEl);
+    if (cardPiles.drawnDeck.length) {
+        let tempImg = document.createElement('img');
+        tempImg.src = `css/card-deck-css/images/backs/blue.svg`;
+        deckEl.appendChild(tempImg);
+    }
 }
 
 function renderCols() {
     colEls.forEach(function(col) {
-        while (col.firstChild) {
-            col.removeChild(col.firstChild);
-        }
+        removeChildren(col);
         cardPiles[col.id].forEach(function(card, idx) {
             let tempSuit = cardPiles[col.id][idx].suit;
             let tempValue = cardPiles[col.id][idx].value;
             let tempImg = document.createElement('img');
             if (idx !== cardPiles[col.id].length-1) {
                 tempImg.src = `css/card-deck-css/images/backs/blue.svg`;
-            } else if (tempValue === 'A' || tempValue === 'K' || tempValue === 'Q' || tempValue == 'J') {
-                tempImg.src = `css/card-deck-css/images/${tempSuit}/${tempSuit}-${tempValue}.svg`;
-            } else if (tempValue === 10) {
-                tempImg.src = `css/card-deck-css/images/${tempSuit}/${tempSuit}-r${tempValue}.svg`
+            // } else if (tempValue === 'A' || tempValue === 'K' || tempValue === 'Q' || tempValue == 'J') {
+            //     tempImg.src = `css/card-deck-css/images/${tempSuit}/${tempSuit}-${tempValue}.svg`;
+            // } else if (tempValue === 10) {
+            //     tempImg.src = `css/card-deck-css/images/${tempSuit}/${tempSuit}-r${tempValue}.svg`
             } else {
-                tempImg.src = `css/card-deck-css/images/${tempSuit}/${tempSuit}-r0${tempValue}.svg`
+                tempImg.src = `css/card-deck-css/images/${tempSuit}/${tempSuit}-${tempValue}.svg`
             }
             col.appendChild(tempImg);
         });
@@ -113,9 +136,7 @@ function shuffleDeck(deck,numShuffles) {
         numShuffles--
         tempDeck = shuffledDeck.map(card => card);
         shuffledDeck = [];
-        console.log(tempDeck);
     }
-    console.log(tempDeck);
     return tempDeck;
 }
 
