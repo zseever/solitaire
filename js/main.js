@@ -65,24 +65,14 @@ function render() {
 function renderMainDeck() {
     removeChildren(deckEl);
     if (cardPiles.mainDeck.length) {
-        let tempImg = document.createElement('img');
-        tempImg.src = `css/card-deck-css/images/backs/blue.svg`;
-        tempImg.style.height = '100%';
-        tempImg.style.width = '100%';
-        deckEl.appendChild(tempImg);
+        generateImg(deckEl,'back',)
     }
 }
 
 function renderDrawnDeck() {
     removeChildren(drawnEl);
     if (cardPiles.drawnDeck.length) {
-        let tempSuit = cardPiles.drawnDeck[cardPiles.drawnDeck.length-1].suit;
-        let tempValue = cardPiles.drawnDeck[cardPiles.drawnDeck.length-1].value;
-        let tempImg = document.createElement('img');
-        tempImg.src = `css/card-deck-css/images/${tempSuit}/${tempSuit}-${tempValue}.svg`;
-        tempImg.style.height = '100%';
-        tempImg.style.width = '100%';
-        drawnEl.appendChild(tempImg);
+        generateImg(drawnEl,'front','drawnDeck')
     }
 }
 
@@ -93,7 +83,6 @@ function renderCols() {
             let tempSuit = cardPiles[col.id][idx].suit;
             let tempValue = cardPiles[col.id][idx].value;
             let tempImg = document.createElement('img');
-
             if (idx !== cardPiles[col.id].length-1) {
                 tempImg.src = `css/card-deck-css/images/backs/blue.svg`;
             } else {
@@ -107,17 +96,24 @@ function renderCols() {
 function renderPiles() {
     rPileEls.forEach(function(pile) {
         removeChildren(pile)
-        let suitPile = pile.id;
-        if (cardPiles[suitPile].length) {
-            let tempSuit = cardPiles[suitPile][cardPiles[suitPile].length-1].suit;
-            let tempValue = cardPiles[suitPile][cardPiles[suitPile].length-1].value;
-            let tempImg = document.createElement('img');
-            tempImg.src = `css/card-deck-css/images/${tempSuit}/${tempSuit}-${tempValue}.svg`;
-            tempImg.style.height = '100%';
-            tempImg.style.width = '100%';
-            pile.appendChild(tempImg);
+        if (cardPiles[pile.id].length) {
+            generateImg(pile,'front',pile.id);
         }
     })
+}
+
+function generateImg(ele,face,pile) {
+    let tempImg = document.createElement('img');
+    if (face === 'front') {
+        let tempSuit = cardPiles[pile][cardPiles[pile].length-1].suit;
+        let tempValue = cardPiles[pile][cardPiles[pile].length-1].value;
+        tempImg.src = `css/card-deck-css/images/${tempSuit}/${tempSuit}-${tempValue}.svg`;
+    } else {
+        tempImg.src = `css/card-deck-css/images/backs/blue.svg`;
+    }
+    tempImg.style.height = '100%';
+    tempImg.style.width = '100%';
+    ele.appendChild(tempImg);    
 }
 
 function removeChildren(el) {
