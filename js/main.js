@@ -8,7 +8,7 @@ let shuffledDeck;
 // -Arrays used for: Deck, Drawn cards, Column piles 1-7,  and the 4 ace piles
 let cardPiles;
 // deck used to distribute cards
-let deck;
+// let deck;
 // -variable for game in progress or game won (I’m not sure how to determine a game is “unwinnable” in solitaire)
 let gameStatus;
 // -move counter?
@@ -88,11 +88,13 @@ function renderCols() {
             let tempSuit = cardPiles[col.id][idx].suit;
             let tempValue = cardPiles[col.id][idx].value;
             let tempImg = document.createElement('img');
-            if (idx !== cardPiles[col.id].length-1) {
+            if (idx !== cardPiles[col.id].length-1 && cardPiles[col.id][idx].show !== true) {
                 tempImg.src = `css/card-deck-css/images/backs/blue.svg`;
             } else {
                 tempImg.src = `css/card-deck-css/images/${tempSuit}/${tempSuit}-${tempValue}.svg`
+                cardPiles[col.id][idx].show = true;
             }
+            tempImg.classList.add(`${idx}`);
             col.appendChild(tempImg);
         });
     });
@@ -121,6 +123,26 @@ function generateImg(ele,face,pile) {
     ele.appendChild(tempImg);    
 }
 
+
+function handleClick(evt) {
+    let elmnt = evt.target;
+    console.log(elmnt);
+    if (elmnt.parentElement.id === 'deck'|| elmnt.id === 'deck') {
+        drawCard();
+    // } else if (!elmnt.nextSibling) {
+    } else if (elmnt.tagName === 'IMG' && !elmnt.src.includes('blue.svg')) {
+        setMoves(evt);
+        if (currentPile && targetPile) {
+            // isValidMove();
+            moveCard();
+        }
+    } else {
+        return
+    }
+    render();
+}
+
+
 function drawCard() {
     if (cardPiles.mainDeck.length === 0) {
         cardPiles.mainDeck = shuffleDeck(cardPiles.drawnDeck,numShuf);
@@ -139,23 +161,6 @@ function setMoves(evt) {
     } else {
         currentPile = evt.target.parentElement;
     }
-}
-
-function handleClick(evt) {
-    let elmnt = evt.target;
-    if (elmnt.parentElement.id === 'deck'|| elmnt.id === 'deck') {
-        drawCard();
-    } else if (!elmnt.nextSibling) {
-        console.log('this works!');
-        setMoves(evt);
-        if (currentPile && targetPile) {
-            // isValidMove();
-            moveCard();
-        }
-    } else {
-        return
-    }
-    render();
 }
 
 function isValidMove() {
