@@ -25,7 +25,7 @@ let targetPile;
 const colEls = document.querySelectorAll('.pyr');
 const rPileEls = document.querySelectorAll('.right');
 const deckEl = document.getElementById('deck');
-const drawnEl = document.getElementById('drawn-deck');
+const drawnEl = document.getElementById('drawnDeck');
 const gameContainer = document.querySelector('.game-container');
 
 /*----- event listeners -----*/
@@ -129,8 +129,9 @@ function handleClick(evt) {
     console.log(elmnt);
     if (elmnt.parentElement.id === 'deck'|| elmnt.id === 'deck') {
         drawCard();
-    // } else if (!elmnt.nextSibling) {
-    } else if (elmnt.tagName === 'IMG' && !elmnt.src.includes('blue.svg')) {
+        currentPile = null;
+        targetPile = null;
+    } else if ((elmnt.tagName === 'IMG' && !elmnt.src.includes('blue.svg')) || elmnt.classList.contains('piles')) {
         setMoves(evt);
         if (currentPile && targetPile) {
             // isValidMove();
@@ -154,12 +155,12 @@ function drawCard() {
 
 function setMoves(evt) {
     if (currentPile && targetPile) {
-        currentPile = evt.target.parentElement;
+        currentPile = evt.target.tagName === 'IMG' ? evt.target.parentElement : evt.target;
         targetPile = null;
     } else if (currentPile) {
-        targetPile = evt.target.parentElement;
+        targetPile = evt.target.tagName === 'IMG' ? evt.target.parentElement : evt.target;
     } else {
-        currentPile = evt.target.parentElement;
+        currentPile = evt.target.tagName === 'IMG' ? evt.target.parentElement : evt.target;
     }
 }
 
@@ -167,8 +168,8 @@ function isValidMove() {
 
 }
 
-function moveCard() {
-    cardPiles[targetPile.id].push(cardPiles[currentPile.id].pop());
+function moveCard(evt) {
+    cardPiles[targetPile.id].push(cardPiles[currentPile.id].pop())
 }
 
 function removeChildren(el) {
