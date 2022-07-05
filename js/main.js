@@ -120,12 +120,14 @@ function generateImg(ele,face,pile) {
     if (face === 'front') {
         let tempSuit = cardPiles[pile][cardPiles[pile].length-1].suit;
         let tempValue = cardPiles[pile][cardPiles[pile].length-1].value;
+        cardPiles[pile][cardPiles[pile].length-1].show = true;
         tempImg.src = `css/card-deck-css/images/${tempSuit}/${tempSuit}-${tempValue}.svg`;
     } else {
         tempImg.src = `css/card-deck-css/images/backs/blue.svg`;
     }
     tempImg.style.height = '100%';
     tempImg.style.width = '100%';
+    tempImg.className = `${cardPiles[pile].length-1}`
     ele.appendChild(tempImg);    
 }
 
@@ -173,16 +175,22 @@ function setMoves(evt) {
     if (currentPile) {
         targetPile = evt.target.tagName === 'IMG' ? evt.target.parentElement : evt.target;
     } else {
-        currentPile = evt.target.tagName === 'IMG' ? evt.target.parentElement : evt.target;
+        // currentPile = evt.target.tagName === 'IMG' ? evt.target.parentElement : evt.target;
+        let tempIdx = evt.target.className;
+        let tempCol = evt.target.parentElement.id;
+        currentPile = {index: tempIdx, col: tempCol};
     }
 }
 
 function isValidMove(cPile, tPile) {
-
+ 
 }
 
 function moveCard(evt) {
-    cardPiles[targetPile.id].push(cardPiles[currentPile.id].pop())
+    // cardPiles[targetPile.id].push(cardPiles[currentPile.id].pop())
+    cardPiles[targetPile.id] = cardPiles[targetPile.id].concat(cardPiles[currentPile.col].slice(currentPile.index));
+    cardPiles[currentPile.col].splice(currentPile.index,cardPiles[currentPile.col].length-currentPile.index);
+
 }
 
 function removeChildren(el) {
