@@ -57,6 +57,7 @@ function init() {
     gameStatus = null;
     moveCounter = 0;
     currentPile = null;
+    targetPile = null;
     render();
 }
 
@@ -65,6 +66,11 @@ function render() {
     renderDrawnDeck();
     renderCols();
     renderPiles();
+    renderSelection();
+}
+
+function renderSelection() {
+
 }
 
 function renderMainDeck() {
@@ -131,12 +137,17 @@ function handleClick(evt) {
         drawCard();
         currentPile = null;
         targetPile = null;
-    } else if ((elmnt.tagName === 'IMG' && !elmnt.src.includes('blue.svg')) || elmnt.classList.contains('piles')) {
+    } else if ((elmnt.tagName === 'IMG' && !elmnt.src.includes('blue.svg')) 
+                || elmnt.classList.contains('piles')
+                || (elmnt.classList.contains('pyr') && currentPile)) {
         setMoves(evt);
         if (currentPile && targetPile) {
-            // isValidMove();
+            // isValidMove(currentPile, targetPile);
             moveCard();
         }
+    // } else if (elmnt.classList.contains('pyr') && currentPile) {
+    //     setMoves(evt);
+
     } else {
         return
     }
@@ -155,16 +166,18 @@ function drawCard() {
 
 function setMoves(evt) {
     if (currentPile && targetPile) {
-        currentPile = evt.target.tagName === 'IMG' ? evt.target.parentElement : evt.target;
+        currentPile = null;
         targetPile = null;
-    } else if (currentPile) {
+    }
+    if (!currentPile && evt.target.tagName !== 'IMG') return;
+    if (currentPile) {
         targetPile = evt.target.tagName === 'IMG' ? evt.target.parentElement : evt.target;
     } else {
         currentPile = evt.target.tagName === 'IMG' ? evt.target.parentElement : evt.target;
     }
 }
 
-function isValidMove() {
+function isValidMove(cPile, tPile) {
 
 }
 
