@@ -1,3 +1,12 @@
+//wednesday todos
+//1. Render Selection, Render target areas
+//2. Win condition
+//3. Move Counter
+//4. Fix errors?
+//5. Improve CSS
+//6. Refactor
+//7. Icebox - Drag functionality?
+
 /*----- constants -----*/
 const CARD_DECK = createDeck();
 const numShuf = 10;
@@ -30,8 +39,6 @@ const gameContainer = document.querySelector('.game-container');
 
 /*----- event listeners -----*/
 gameContainer.addEventListener('click',handleClick);
-// deckEl.addEventListener('click', drawCard);
-// drawnEl.addEventListener('click', handleClick);
 
 
 /*----- functions -----*/
@@ -144,12 +151,8 @@ function handleClick(evt) {
                 || (elmnt.classList.contains('pyr') && currentPile)) {
         setMoves(evt);
         if (currentPile && targetPile) {
-            isValidMove(currentPile, targetPile) ? moveCard() : console.log('not valid');
-            // moveCard();
+            isValidMove(currentPile, targetPile) ? moveCard() : targetPile = null;
         }
-    // } else if (elmnt.classList.contains('pyr') && currentPile) {
-    //     setMoves(evt);
-
     } else {
         return
     }
@@ -175,7 +178,6 @@ function setMoves(evt) {
     if (currentPile) {
         targetPile = evt.target.tagName === 'IMG' ? evt.target.parentElement : evt.target;
     } else {
-        // currentPile = evt.target.tagName === 'IMG' ? evt.target.parentElement : evt.target;
         let tempIdx = evt.target.className;
         let tempCol = evt.target.parentElement.id;
         currentPile = {index: tempIdx, col: tempCol};
@@ -185,9 +187,10 @@ function setMoves(evt) {
 
 function isValidMove(cPile, tPile) {
     let tCol = targetPile.id ? targetPile.id : targetPile.parentElement.id;
-    // let tPCol = targetPile.parentElement.id;
     let cCol = currentPile.col; 
     let cIdx = currentPile.index;
+    let cTarget = cardPiles[cCol][cIdx];
+    let tTarget = cardPiles[tCol];
     if (targetPile.id === 'drawnDeck') {
         return false;
     } else if (suitPilesValid('heartsPile',tCol,cCol,cIdx,'hearts')) {
@@ -197,6 +200,17 @@ function isValidMove(cPile, tPile) {
     } else if (suitPilesValid('clubsPile',tCol,cCol,cIdx,'clubs')) {
         return true;
     } else if (suitPilesValid('spadesPile',tCol,cCol,cIdx,'spades')) {
+        return true;
+    } else if (!['heartsPile','diamondsPile','clubsPile','spadesPile'].includes(tCol)
+               && cTarget.rank === 13) {
+        return true;
+    } else if ((cTarget.suit === 'hearts' || cTarget.suit === 'diamonds')
+                && (tTarget[tTarget.length-1].suit === 'clubs' || tTarget[tTarget.length-1].suit === 'spades')
+                && (cTarget.rank === tTarget[tTarget.length-1].rank - 1)) {
+        return true;
+    } else if ((cTarget.suit === 'clubs' || cTarget.suit === 'spades')
+                && (tTarget[tTarget.length-1].suit === 'hearts' || tTarget[tTarget.length-1].suit === 'diamonds')
+                && (cTarget.rank === tTarget[tTarget.length-1].rank - 1)) {
         return true;
     } else {
         return false;
@@ -219,7 +233,6 @@ function suitPilesValid(pile,tarCol,curCol,curIdx,suit) {
 }
 
 function moveCard(evt) {
-    // cardPiles[targetPile.id].push(cardPiles[currentPile.id].pop())
     cardPiles[targetPile.id] = cardPiles[targetPile.id].concat(cardPiles[currentPile.col].slice(currentPile.index));
     cardPiles[currentPile.col].splice(currentPile.index,cardPiles[currentPile.col].length-currentPile.index);
 
