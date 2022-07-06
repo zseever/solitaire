@@ -1,28 +1,24 @@
 //wednesday todos
 //1. Render Selection, Render target areas
 //2. Win condition
+// Start Game/Replay/restart button
+// Sta
 //3. Move Counter
 //4. Fix errors?
 //5. Improve CSS
 //6. Refactor
 //7. Icebox - Drag functionality?
+// Audio
 
 /*----- constants -----*/
 const CARD_DECK = createDeck();
 const numShuf = 10;
 
 /*----- app's state (variables) -----*/
-// -store arrays from main object in variables
 let shuffledDeck;
-// -Arrays used for: Deck, Drawn cards, Column piles 1-7,  and the 4 ace piles
 let cardPiles;
-// deck used to distribute cards
-// let deck;
-// -variable for game in progress or game won (I’m not sure how to determine a game is “unwinnable” in solitaire)
 let gameStatus;
-// -move counter?
 let moveCounter;
-// -current card/stack selected
 let currentPile;
 let targetPile;
 // Timer (extra feature)
@@ -78,6 +74,16 @@ function render() {
 
 function renderSelection() {
     //will highlight the selected card with a unique outline
+    for (let pile in cardPiles) {
+        cardPiles[pile].forEach (function(card, idx) {
+            if (card.selected) {
+                document.querySelectorAll(`#${pile} :nth-child(n+${idx+1})`).forEach(function(el) {
+                    el.classList.add("selected");
+                })
+                console.log(document.querySelectorAll(`#${pile} :nth-child(n+${idx+1})`))
+            }
+        })
+    }
 }
 
 function renderMainDeck() {
@@ -101,7 +107,7 @@ function renderCols() {
             let tempSuit = cardPiles[col.id][idx].suit;
             let tempValue = cardPiles[col.id][idx].value;
             let tempImg = document.createElement('img');
-            if (idx !== cardPiles[col.id].length-1 && cardPiles[col.id][idx].show !== true) {
+            if (idx !== cardPiles[col.id].length-1 && !cardPiles[col.id][idx].show) {
                 tempImg.src = `css/card-deck-css/images/backs/blue.svg`;
             } else {
                 tempImg.src = `css/card-deck-css/images/${tempSuit}/${tempSuit}-${tempValue}.svg`
@@ -141,7 +147,6 @@ function generateImg(ele,face,pile) {
 
 function handleClick(evt) {
     let elmnt = evt.target;
-    console.log(elmnt);
     if (elmnt.parentElement.id === 'deck'|| elmnt.id === 'deck') {
         drawCard();
         currentPile = null;
@@ -151,7 +156,14 @@ function handleClick(evt) {
                 || (elmnt.classList.contains('pyr') && currentPile)) {
         setMoves(evt);
         if (currentPile && targetPile) {
-            isValidMove(currentPile, targetPile) ? moveCard() : targetPile = null;
+            if (isValidMove(currentPile, targetPile)) {
+                moveCard();
+                clearSelected();
+            } else {
+                targetPile = null;
+                currentPile = null;
+                clearSelected();
+            }
         }
     } else {
         return
@@ -170,6 +182,8 @@ function drawCard() {
 }
 
 function setMoves(evt) {
+    let tempIdx = evt.target.className;
+    let tempCol = evt.target.parentElement.id;
     if (currentPile && targetPile) {
         currentPile = null;
         targetPile = null;
@@ -178,10 +192,17 @@ function setMoves(evt) {
     if (currentPile) {
         targetPile = evt.target.tagName === 'IMG' ? evt.target.parentElement : evt.target;
     } else {
-        let tempIdx = evt.target.className;
-        let tempCol = evt.target.parentElement.id;
         currentPile = {index: tempIdx, col: tempCol};
-        console.log(cardPiles[currentPile.col][currentPile.index].suit);
+    }
+    clearSelected();
+    cardPiles[currentPile.col][currentPile.index].selected = true;
+}
+
+function clearSelected() {
+    for (let pile in cardPiles) {
+        cardPiles[pile].forEach(function(card) {
+            card.selected = false;
+        });
     }
 }
 
@@ -202,7 +223,8 @@ function isValidMove(cPile, tPile) {
     } else if (suitPilesValid('spadesPile',tCol,cCol,cIdx,'spades')) {
         return true;
     } else if (!['heartsPile','diamondsPile','clubsPile','spadesPile'].includes(tCol)
-               && cTarget.rank === 13) {
+               && cTarget.rank === 13
+               && cardPiles[tCol].length === 0) {
         return true;
     } else if ((cTarget.suit === 'hearts' || cTarget.suit === 'diamonds')
                 && (tTarget[tTarget.length-1].suit === 'clubs' || tTarget[tTarget.length-1].suit === 'spades')
@@ -250,7 +272,7 @@ function createDeck() {
     let deck = [];
     suits.forEach(function(suit) {
       values.forEach(function(value, idx) {
-        deck.push({value: value,suit: suit, rank:idx+1});
+        deck.push({value: value,suit: suit, rank:idx+1, show: false, selected:false});
       });
     });
     return deck;

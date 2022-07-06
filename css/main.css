@@ -77,3 +77,6 @@ img:not(:first-child) {
     border-radius:5%;
 }
 
+.selected {
+    border: 5px solid rgb(161, 54, 207);
+}
