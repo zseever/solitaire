@@ -70,7 +70,7 @@ function render() {
 }
 
 function renderSelection() {
-
+    //will highlight the selected card with a unique outline
 }
 
 function renderMainDeck() {
@@ -144,8 +144,8 @@ function handleClick(evt) {
                 || (elmnt.classList.contains('pyr') && currentPile)) {
         setMoves(evt);
         if (currentPile && targetPile) {
-            // isValidMove(currentPile, targetPile);
-            moveCard();
+            isValidMove(currentPile, targetPile) ? moveCard() : console.log('not valid');
+            // moveCard();
         }
     // } else if (elmnt.classList.contains('pyr') && currentPile) {
     //     setMoves(evt);
@@ -179,11 +179,32 @@ function setMoves(evt) {
         let tempIdx = evt.target.className;
         let tempCol = evt.target.parentElement.id;
         currentPile = {index: tempIdx, col: tempCol};
+        console.log(cardPiles[currentPile.col][currentPile.index].suit);
     }
 }
 
 function isValidMove(cPile, tPile) {
- 
+    let tCol = targetPile.id ? targetPile.id : targetPile.parentElement.id;
+    // let tPCol = targetPile.parentElement.id;
+    let cCol = currentPile.col; 
+    let cIdx = currentPile.index;
+    if (targetPile.id === 'drawnDeck') {
+        return false;
+    // } else if (['heartsPile','diamondsPile','clubsPile','spadesPile'].includes(targetPile.id)) {
+    } else if (tCol === 'heartsPile') {
+        if (cardPiles[tCol].length === 0 
+            && cardPiles[cCol][cIdx].suit === 'hearts' 
+            && cardPiles[cCol][cIdx].rank === 1) {
+            return true;
+        } else if (cardPiles[cCol][cIdx].suit === 'hearts' 
+                    && cardPiles[cCol][cIdx].rank === cardPiles['heartsPile'][cardPiles['heartsPile'].length]) {
+            return true;                
+        } else {
+            return false;
+        }
+    } else {
+        return true;
+    }
 }
 
 function moveCard(evt) {
