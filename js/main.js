@@ -190,20 +190,31 @@ function isValidMove(cPile, tPile) {
     let cIdx = currentPile.index;
     if (targetPile.id === 'drawnDeck') {
         return false;
-    // } else if (['heartsPile','diamondsPile','clubsPile','spadesPile'].includes(targetPile.id)) {
-    } else if (tCol === 'heartsPile') {
-        if (cardPiles[tCol].length === 0 
-            && cardPiles[cCol][cIdx].suit === 'hearts' 
-            && cardPiles[cCol][cIdx].rank === 1) {
+    } else if (suitPilesValid('heartsPile',tCol,cCol,cIdx,'hearts')) {
+        return true;
+    } else if (suitPilesValid('diamondsPile',tCol,cCol,cIdx,'diamonds')) {
+        return true;
+    } else if (suitPilesValid('clubsPile',tCol,cCol,cIdx,'clubs')) {
+        return true;
+    } else if (suitPilesValid('spadesPile',tCol,cCol,cIdx,'spades')) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+function suitPilesValid(pile,tarCol,curCol,curIdx,suit) {
+    if (tarCol === pile) {
+        if (cardPiles[tarCol].length === 0 
+            && cardPiles[curCol][curIdx].suit === suit 
+            && cardPiles[curCol][curIdx].rank === 1) {
             return true;
-        } else if (cardPiles[cCol][cIdx].suit === 'hearts' 
-                    && cardPiles[cCol][cIdx].rank === cardPiles['heartsPile'][cardPiles['heartsPile'].length]) {
+        } else if (cardPiles[curCol][curIdx].suit === suit
+                    && cardPiles[curCol][curIdx].rank === cardPiles[pile][cardPiles[pile].length-1].rank +1) {
             return true;                
         } else {
             return false;
-        }
-    } else {
-        return true;
+        }    
     }
 }
 
