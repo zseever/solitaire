@@ -4,7 +4,8 @@ html {
     width:100vw;
 }
 body {
-    background-color: rgb(20, 95, 14);
+    /* background-image: url('images/cardBg.jpeg'); */
+    background-color: rgb(11, 60, 7);
     font-size: 5vmin;
     margin:0;
     height:100vh;
@@ -29,7 +30,7 @@ header {
 }
 
 .arr {
-    background-color:rgb(34, 166, 27);
+    background-color:rgb(12, 111, 7);
     height: 100%;  
     width: 11%;
     display:flex;
@@ -42,7 +43,7 @@ header {
 }
 
 #deck-col, #ace-col {
-    background-color: green;
+    background-color: rgb(3, 55, 3);
     border:1px solid black;
     display:flex;
     flex-direction: column;
@@ -71,7 +72,7 @@ img:not(:first-child) {
 
 .piles {
     height: 23%;
-    background-color:whitesmoke;
+    background-color:rgba(22, 173, 39, 0.701);
     width: 65%;
     border:1px solid black;
     border-radius:5%;

@@ -10,6 +10,10 @@
 //7. Icebox - Drag functionality?
 // Audio
 
+//bugs
+// errors when trying to move to wrong pile, bugs out sequence
+
+
 /*----- constants -----*/
 const CARD_DECK = createDeck();
 const numShuf = 10;
@@ -75,16 +79,20 @@ function render() {
 function renderSelection() {
     //will highlight the selected card with a unique outline
     for (let pile in cardPiles) {
-        cardPiles[pile].forEach (function(card, idx) {
+        cardPiles[pile].forEach(function(card, idx) {
             if (card.selected) {
-                document.querySelectorAll(`#${pile} :nth-child(n+${idx+1})`).forEach(function(el) {
-                    el.classList.add("selected");
-                })
-                console.log(document.querySelectorAll(`#${pile} :nth-child(n+${idx+1})`))
+                if (['heartsPile','diamondsPile','clubsPile','spadesPile','drawnDeck'].includes(pile)) {
+                    document.querySelector(`#${pile} :first-child`).classList.add("selected")
+                } else {
+                    document.querySelectorAll(`#${pile} :nth-child(n+${idx+1})`).forEach(function(el) {
+                        el.classList.add("selected");
+                    })
+                }
             }
         })
     }
 }
+
 
 function renderMainDeck() {
     removeChildren(deckEl);
@@ -151,6 +159,7 @@ function handleClick(evt) {
         drawCard();
         currentPile = null;
         targetPile = null;
+        clearSelected();
     } else if ((elmnt.tagName === 'IMG' && !elmnt.src.includes('blue.svg')) 
                 || elmnt.classList.contains('piles')
                 || (elmnt.classList.contains('pyr') && currentPile)) {
@@ -166,8 +175,10 @@ function handleClick(evt) {
             }
         }
     } else {
+        render();
         return
     }
+    console.log(cardPiles.drawnDeck[1]);
     render();
 }
 
@@ -195,7 +206,9 @@ function setMoves(evt) {
         currentPile = {index: tempIdx, col: tempCol};
     }
     clearSelected();
+ 
     cardPiles[currentPile.col][currentPile.index].selected = true;
+    console.log(cardPiles[currentPile.col][currentPile.index].selected);
 }
 
 function clearSelected() {
