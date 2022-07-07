@@ -1,11 +1,6 @@
-//wednesday todos
 //2. Audio
 //3. Move Counter
-//4. Fix errors?
 //5. Improve CSS
-//6. Refactor
-//7. Icebox - Drag functionality?
-
 
 /*----- constants -----*/
 const ICON_LOOKUP = {
@@ -133,6 +128,7 @@ function renderPiles() {
         }
     })
 }
+
 function renderMessages() {
     (gameStatus) ? headerEl.textContent = 'WINNER!' : 'Solitaire';
     if (gameStatus) {
@@ -161,8 +157,6 @@ function generateImg(ele,face,pile) {
         tempImg.style.height = '100%';
         tempImg.style.width = '100%';
     } 
-    // tempImg.style.height = '100%';
-    // tempImg.style.width = '100%';
     tempImg.className = `${cardPiles[pile].length-1}`
     ele.appendChild(tempImg);    
 }
