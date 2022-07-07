@@ -83,7 +83,7 @@ img:not(:first-child) {
 
 .piles {
     height: 23%;
-    background-color:rgba(22, 173, 39, 0.701);
+    background-color: #177D26;
     width: 65%;
     border:1px solid black;
     border-radius:5%;

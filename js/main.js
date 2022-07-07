@@ -8,6 +8,12 @@
 
 
 /*----- constants -----*/
+const ICON_LOOKUP = {
+    clubsPile: 'css/images/clubs.png',
+    spadesPile: 'css/images/spade.png',
+    heartsPile: 'css/images/heart.png',
+    diamondsPile: 'css/images/diamond.png'
+}
 const numShuf = 10;
 
 /*----- app's state (variables) -----*/
@@ -122,6 +128,8 @@ function renderPiles() {
         removeChildren(pile)
         if (cardPiles[pile.id].length) {
             generateImg(pile,'front',pile.id);
+        } else {
+            generateImg(pile,'icon',pile.id);
         }
     })
 }
@@ -142,11 +150,19 @@ function generateImg(ele,face,pile) {
         let tempValue = cardPiles[pile][cardPiles[pile].length-1].value;
         cardPiles[pile][cardPiles[pile].length-1].show = true;
         tempImg.src = `css/card-deck-css/images/${tempSuit}/${tempSuit}-${tempValue}.svg`;
+        tempImg.style.height = '100%';
+        tempImg.style.width = '100%';
+    } else if (face === 'icon') {
+        tempImg.src = ICON_LOOKUP[pile];
+        tempImg.style.border = 'none';
+        tempImg.style.backgroundColor = '#177D26';
     } else {
         tempImg.src = `css/card-deck-css/images/backs/blue.svg`;
-    }
-    tempImg.style.height = '100%';
-    tempImg.style.width = '100%';
+        tempImg.style.height = '100%';
+        tempImg.style.width = '100%';
+    } 
+    // tempImg.style.height = '100%';
+    // tempImg.style.width = '100%';
     tempImg.className = `${cardPiles[pile].length-1}`
     ele.appendChild(tempImg);    
 }
