@@ -2,6 +2,7 @@ html {
     box-sizing:border-box;
     height:100vh;
     width:100vw;
+    margin:0;
 }
 body {
     /* background-image: url('images/cardBg.jpeg'); */
@@ -14,11 +15,21 @@ body {
 
 header {
     display: flex;
-    justify-content: center;
+    justify-content: space-around;
     align-items: center;
     height:10%;
     background-color: rgb(68, 67, 67);
     color:white;
+}
+
+button {
+    height:6vmin;
+    width:17vmin;
+    font-size:2.4vmin;
+    color: white;
+    background-color: rgb(68, 67, 67);
+    border: 0.5vmin solid rgb(33, 30, 30);
+    border-radius: 0.5vmin;
 }
 
 
@@ -76,6 +87,9 @@ img:not(:first-child) {
     width: 65%;
     border:1px solid black;
     border-radius:5%;
+    display:flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .selected {

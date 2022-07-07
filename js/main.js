@@ -1,8 +1,5 @@
 //wednesday todos
-//1. Render Selection, Render target areas
-//2. Win condition
-// Start Game/Replay/restart button
-// Sta
+//1. Block moves after gameStatus is true
 //3. Move Counter
 //4. Fix errors?
 //5. Improve CSS
@@ -15,10 +12,10 @@
 
 
 /*----- constants -----*/
-const CARD_DECK = createDeck();
 const numShuf = 10;
 
 /*----- app's state (variables) -----*/
+let cardDeck;
 let shuffledDeck;
 let cardPiles;
 let gameStatus;
@@ -36,16 +33,20 @@ const rPileEls = document.querySelectorAll('.right');
 const deckEl = document.getElementById('deck');
 const drawnEl = document.getElementById('drawnDeck');
 const gameContainer = document.querySelector('.game-container');
+const headerEl = document.querySelector('#heading');
+const buttonEl = document.querySelector('#button');
 
 /*----- event listeners -----*/
 gameContainer.addEventListener('click',handleClick);
+buttonEl.addEventListener('click', init);
 
 
 /*----- functions -----*/
-init();
+// init();
 
 function init() {
-    shuffledDeck = shuffleDeck(CARD_DECK,numShuf);
+    cardDeck = createDeck();
+    shuffledDeck = shuffleDeck(cardDeck,numShuf);
     cardPiles = {
         mainDeck: shuffledDeck.slice(28),
         drawnDeck: [],
@@ -74,6 +75,7 @@ function render() {
     renderCols();
     renderPiles();
     renderSelection();
+    renderMessages();
 }
 
 function renderSelection() {
@@ -135,6 +137,15 @@ function renderPiles() {
         }
     })
 }
+function renderMessages() {
+    (gameStatus) ? headerEl.textContent = 'WINNER!' : 'Solitaire';
+    if (gameStatus) {
+        headerEl.textContent = 'WINNER!';
+        buttonEl.textContent = 'Play Again?';
+    } else {
+        buttonEl.textContent = 'Restart';
+    }
+}
 
 function generateImg(ele,face,pile) {
     let tempImg = document.createElement('img');
@@ -152,6 +163,9 @@ function generateImg(ele,face,pile) {
     ele.appendChild(tempImg);    
 }
 
+function handleButtonClick() {
+    init()
+}
 
 function handleClick(evt) {
     let elmnt = evt.target;
@@ -178,7 +192,10 @@ function handleClick(evt) {
         render();
         return
     }
-    console.log(cardPiles.drawnDeck[1]);
+    if (gameStatusCheck()) {
+        gameStatus = gameStatusCheck();
+
+    }
     render();
 }
 
@@ -206,9 +223,7 @@ function setMoves(evt) {
         currentPile = {index: tempIdx, col: tempCol};
     }
     clearSelected();
- 
     cardPiles[currentPile.col][currentPile.index].selected = true;
-    console.log(cardPiles[currentPile.col][currentPile.index].selected);
 }
 
 function clearSelected() {
@@ -277,6 +292,14 @@ function removeChildren(el) {
     while (el.firstChild) {
         el.removeChild(el.firstChild);
     }
+}
+
+function gameStatusCheck() {
+    let hrtValue = (cardPiles.heartsPile.length) ? cardPiles.heartsPile[cardPiles.heartsPile.length-1].rank : null;
+    let dmndValue = (cardPiles.diamondsPile.length) ? cardPiles.diamondsPile[cardPiles.diamondsPile.length-1].rank : null;
+    let clubValue = (cardPiles.clubsPile.length) ? cardPiles.clubsPile[cardPiles.clubsPile.length-1].rank : null;
+    let spdeValue = (cardPiles.spadesPile.length) ? cardPiles.spadesPile[cardPiles.spadesPile.length-1].rank : null;
+    return (hrtValue + dmndValue + clubValue + spdeValue === 52)
 }
 
 function createDeck() {
