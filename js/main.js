@@ -1,14 +1,10 @@
 //wednesday todos
-//1. Block moves after gameStatus is true
+//2. Audio
 //3. Move Counter
 //4. Fix errors?
 //5. Improve CSS
 //6. Refactor
 //7. Icebox - Drag functionality?
-// Audio
-
-//bugs
-// errors when trying to move to wrong pile, bugs out sequence
 
 
 /*----- constants -----*/
@@ -22,10 +18,6 @@ let gameStatus;
 let moveCounter;
 let currentPile;
 let targetPile;
-// Timer (extra feature)
-//let count;
-
-
 
 /*----- cached element references -----*/
 const colEls = document.querySelectorAll('.pyr');
@@ -40,10 +32,7 @@ const buttonEl = document.querySelector('#button');
 gameContainer.addEventListener('click',handleClick);
 buttonEl.addEventListener('click', init);
 
-
 /*----- functions -----*/
-// init();
-
 function init() {
     cardDeck = createDeck();
     shuffledDeck = shuffleDeck(cardDeck,numShuf);
@@ -79,7 +68,6 @@ function render() {
 }
 
 function renderSelection() {
-    //will highlight the selected card with a unique outline
     for (let pile in cardPiles) {
         cardPiles[pile].forEach(function(card, idx) {
             if (card.selected) {
@@ -163,12 +151,9 @@ function generateImg(ele,face,pile) {
     ele.appendChild(tempImg);    
 }
 
-function handleButtonClick() {
-    init()
-}
-
 function handleClick(evt) {
     let elmnt = evt.target;
+    if (gameStatus) return;
     if (elmnt.parentElement.id === 'deck'|| elmnt.id === 'deck') {
         drawCard();
         currentPile = null;
@@ -254,11 +239,13 @@ function isValidMove(cPile, tPile) {
                && cTarget.rank === 13
                && cardPiles[tCol].length === 0) {
         return true;
-    } else if ((cTarget.suit === 'hearts' || cTarget.suit === 'diamonds')
+    } else if (!['heartsPile','diamondsPile','clubsPile','spadesPile'].includes(tCol)
+                && (cTarget.suit === 'hearts' || cTarget.suit === 'diamonds')
                 && (tTarget[tTarget.length-1].suit === 'clubs' || tTarget[tTarget.length-1].suit === 'spades')
                 && (cTarget.rank === tTarget[tTarget.length-1].rank - 1)) {
         return true;
-    } else if ((cTarget.suit === 'clubs' || cTarget.suit === 'spades')
+    } else if (!['heartsPile','diamondsPile','clubsPile','spadesPile'].includes(tCol)
+                && (cTarget.suit === 'clubs' || cTarget.suit === 'spades')
                 && (tTarget[tTarget.length-1].suit === 'hearts' || tTarget[tTarget.length-1].suit === 'diamonds')
                 && (cTarget.rank === tTarget[tTarget.length-1].rank - 1)) {
         return true;
