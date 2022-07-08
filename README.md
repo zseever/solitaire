@@ -1,4 +1,4 @@
-# <Solitaire>
+# Solitaire
 Solitaire is a card game with lots of different piles of cards that are randomized, with some face up and others face down. The goal is to move these cards around based on certain rules and sort them into their respective suits' pile in numerical/ranking order (Ace -> King). Rules of the game are outlined in the playable link below.
 
 # Screenshot
