@@ -19,7 +19,7 @@ header {
     display: flex;
     justify-content: space-around;
     align-items: center;
-    height:10%;
+    height:10vh;
     background: radial-gradient(#020203,rgb(68, 67, 67));
     color:white;
 }
@@ -35,16 +35,23 @@ button {
     font-family: 'Righteous',sans-serif;
 }
 
+button:hover {
+    cursor: pointer;
+}
+
 img {
-    width: 65%;
+    /* width: 65%; */
+    width: 6vw;
     background: white;
     border: 3px solid black;
-    border-radius:5%;
+    /* border-radius:5%; */
+    border-radius:0.5vmin;
 
 }
 
 img:not(:first-child) {
-    margin-top:-69%;
+    /* margin-top:-69%; */
+    margin-top: -6.5vw;
 }
 
 span {
@@ -57,26 +64,31 @@ span {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 90%;
+    height: 90vh;
+    /* margin-top:1vmin; */
 }
 
 .arr {
     /* background-color:rgb(12, 111, 7); */
-    height: 100%;  
-    width: 11%;
+    /* height: 100%;   */
+    height: 90vh;  
+    width: 11vw;
     display:flex;
     flex-direction: column;
     justify-content: start;
     align-items: center;
     border:1px solid black; 
-    padding-top:20px;
+}
 
+.pyr > img:first-child {
+    margin-top:1vmin;
 }
 
 .piles {
-    height: 18%;
+    /* height: 18%; */
+    height: 13vh;
     background-color: #177D26;
-    width: 65%;
+    width: 6vw;
     border:1px solid black;
     border-radius:5%;
     display:flex;
@@ -102,6 +114,10 @@ span {
     flex-direction: column;
     justify-content: flex-start;
     gap:10%;
+}
+
+#deck {
+    margin-top:1vmin;
 }
 
 #move-counter {
