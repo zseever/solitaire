@@ -1,0 +1,43 @@
+Solitaire Pseudocode
+
+1) Define required constants
+	
+
+2) Define required variables used to track the state of the game
+	-store arrays from main object in variables
+	-variable for game in progress or game won (I’m not sure how to determine a game is “unwinnable” in solitaire)
+	-move counter?
+	-current card/stack selected
+	-Define an object that contains a number of properties that hold different arrays
+	-Arrays used for: Deck, Drawn cards, Column piles 1-7,  and the 4 ace piles
+
+3) Store elements on the page that will be accessed in code more than once in variables to make code more concise, readable and performant.
+	-two divs in first column for deck & drawn cards
+	-7 divs for the 7 columns “pyramid” - querySelectorAll possibly?
+	-four divs in last column for the ace stacks
+	-new game/restart button
+
+4) Upon loading the app should:
+	4.1) Initialize the state variables
+		-shuffle the deck
+		-assign the 52 cards  to correct locations randomly - 28 into the 7 “pyramid” columns, remaining into Deck
+		-Set move counter to 0
+		-set gameStatus to null
+		-card/stack selected equal to null
+	4.2) Render those values to the page
+		-Render the board
+			-Most cards should be face down unless at the top of a stack (class = visible)
+				-Loop through the relevant arrays to add or remove the visible class
+	4.3) Wait for the user to click a card
+		
+
+5) Handle a player clicking a square
+	-event listeners at the top of each card stack
+		-if card is clicked, wait for the top of another card stack to be clicked to determine which array to move the card to
+		-code in logic for isValidMove()
+	-event listener for drawing a card by clicking the deck
+		-if deck is empty and slot is clicked, reshuffle the deck
+
+
+6) Handle a player clicking the replay button
+	-When button is clicked, re-call the init() function to reset the state variables. Init function will likely call render() from within.
