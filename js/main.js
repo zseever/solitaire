@@ -1,7 +1,3 @@
-//2. Audio
-//3. Move Counter
-//5. Improve CSS
-
 /*----- constants -----*/
 const ICON_LOOKUP = {
     clubsPile: 'css/images/clubs.png',
@@ -9,6 +5,12 @@ const ICON_LOOKUP = {
     heartsPile: 'css/images/heart.png',
     diamondsPile: 'css/images/diamond.png'
 }
+
+const SOUND_LOOKUP = {
+    shuffle: 'https://cdn.freesound.org/previews/538/538525_11412454-lq.mp3',
+    card: 'https://cdn.freesound.org/previews/240/240777_4107740-lq.mp3',
+}
+
 const numShuf = 10;
 
 /*----- app's state (variables) -----*/
@@ -28,10 +30,15 @@ const drawnEl = document.getElementById('drawnDeck');
 const gameContainer = document.querySelector('.game-container');
 const headerEl = document.querySelector('#heading');
 const buttonEl = document.querySelector('#button');
+const cardAudioEl = new Audio();
+const movePEl = document.querySelector('#move-counter');
+const rulesButtonEl = document.getElementById('rules-button');
+const rulesEl = document.getElementById('rules');
 
 /*----- event listeners -----*/
 gameContainer.addEventListener('click',handleClick);
 buttonEl.addEventListener('click', init);
+rulesButtonEl.addEventListener('click', renderRules);
 
 /*----- functions -----*/
 function init() {
@@ -56,6 +63,7 @@ function init() {
     moveCounter = 0;
     currentPile = null;
     targetPile = null;
+    rules = null;
     render();
 }
 
@@ -137,6 +145,13 @@ function renderMessages() {
     } else {
         buttonEl.textContent = 'Restart';
     }
+    movePEl.innerHTML = `Moves: ${moveCounter}`;
+}
+
+function renderRules() {
+    let visibilitySet = rulesEl.style.visibility;
+    visibilitySet = (visibilitySet === 'hidden') ? 'visible' : 'hidden';
+    rulesEl.style.visibility = visibilitySet;
 }
 
 function generateImg(ele,face,pile) {
@@ -199,9 +214,13 @@ function drawCard() {
     if (cardPiles.mainDeck.length === 0) {
         cardPiles.mainDeck = shuffleDeck(cardPiles.drawnDeck,numShuf);
         cardPiles.drawnDeck = [];
+        cardAudioEl.src = SOUND_LOOKUP.shuffle;
+        cardAudioEl.playbackRate = 1.5;
+        cardAudioEl.play();
     } else {
         cardPiles.drawnDeck.push(cardPiles.mainDeck.pop());
     }
+    moveCounter++
 }
 
 function setMoves(evt) {
@@ -282,7 +301,10 @@ function suitPilesValid(pile,tarCol,curCol,curIdx,suit) {
 function moveCard(evt) {
     cardPiles[targetPile.id] = cardPiles[targetPile.id].concat(cardPiles[currentPile.col].slice(currentPile.index));
     cardPiles[currentPile.col].splice(currentPile.index,cardPiles[currentPile.col].length-currentPile.index);
-
+    cardAudioEl.src = SOUND_LOOKUP.card;
+    cardAudioEl.playbackRate = 2.0;
+    cardAudioEl.play();
+    moveCounter++;
 }
 
 function removeChildren(el) {

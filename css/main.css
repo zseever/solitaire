@@ -1,12 +1,14 @@
+/*----- element selectors ------*/
 html {
     box-sizing:border-box;
     height:100vh;
     width:100vw;
     margin:0;
+    font-family: 'Righteous', sans-serif;
 }
 body {
-    /* background-image: url('images/cardBg.jpeg'); */
     background-color: rgb(11, 60, 7);
+    background: radial-gradient(#277e33,rgb(11, 60, 7));
     font-size: 5vmin;
     margin:0;
     height:100vh;
@@ -18,7 +20,7 @@ header {
     justify-content: space-around;
     align-items: center;
     height:10%;
-    background-color: rgb(68, 67, 67);
+    background: radial-gradient(#020203,rgb(68, 67, 67));
     color:white;
 }
 
@@ -30,44 +32,8 @@ button {
     background-color: rgb(68, 67, 67);
     border: 0.5vmin solid rgb(33, 30, 30);
     border-radius: 0.5vmin;
+    font-family: 'Righteous',sans-serif;
 }
-
-
-.game-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 90%;
-}
-
-.arr {
-    background-color:rgb(12, 111, 7);
-    height: 100%;  
-    width: 11%;
-    display:flex;
-    flex-direction: column;
-    justify-content: start;
-    align-items: center;
-    border:1px solid black; 
-    padding-top:20px;
-
-}
-
-#deck-col, #ace-col {
-    background-color: rgb(3, 55, 3);
-    border:1px solid black;
-    display:flex;
-    flex-direction: column;
-    justify-content: space-around;
-}
-
-#deck-col {
-    display:flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    gap:10%;
-}
-
 
 img {
     width: 65%;
@@ -79,6 +45,32 @@ img {
 
 img:not(:first-child) {
     margin-top:-69%;
+}
+
+span {
+    font-weight: 700;
+    text-decoration: underline;
+}
+
+/*--------- class selectors ---------*/
+.game-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 90%;
+}
+
+.arr {
+    /* background-color:rgb(12, 111, 7); */
+    height: 100%;  
+    width: 11%;
+    display:flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: center;
+    border:1px solid black; 
+    padding-top:20px;
+
 }
 
 .piles {
@@ -94,4 +86,38 @@ img:not(:first-child) {
 
 .selected {
     border: 5px solid rgb(161, 54, 207);
+}
+
+/*--------- id selectors ---------*/
+#deck-col, #ace-col {
+    background-color: rgb(3, 55, 3);
+    border:1px solid black;
+    display:flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+#deck-col {
+    display:flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    gap:10%;
+}
+
+#move-counter {
+    font-size: 2vmin;
+}
+
+#rules {
+    position: absolute;
+    font-size:2vmin;
+    color:white;
+    top:8.2vmin;
+    left:8.5vmin;
+    background-color:white;
+    width:50vmax;
+    background-color: rgb(68, 67, 67);
+    border: 0.5vmin solid rgb(33, 30, 30);
+    padding:1vmin;
+    visibility: hidden;
 }

@@ -8,17 +8,22 @@
     <link rel="stylesheet" href="css/main.css">
     <script defer src="js/main.js"></script>
     <link rel="shortcut icon" type="image/png" href="css/images/favicon.png"/>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Righteous&display=swap" rel="stylesheet">
 </head>
 <body>
     <header>
+        <button id="rules-button">Rules</button>
         <p></p>
         <p id="heading">Solitaire</p>
+        <p id="move-counter"></p>
         <button id="button">Start Game</button>
     </header>
     <div class="game-container">
             <div class="arr" id="deck-col">
-                <div class="piles left" id="deck">Deck</div>
-                <div class="piles left" id="drawnDeck">Drawn</div>
+                <div class="piles left" id="deck"></div>
+                <div class="piles left" id="drawnDeck"></div>
             </div>
             <div class="arr pyr" id="col1"></div>
             <div class="arr pyr" id="col2"></div>
@@ -28,11 +33,34 @@
             <div class="arr pyr" id="col6"></div>
             <div class="arr pyr" id="col7"></div> 
             <div class="arr" id="ace-col">
-                <div class="right piles" id="heartsPile">H</div>
-                <div class="right piles" id="diamondsPile">D</div>
-                <div class="right piles" id="clubsPile">C</div>
-                <div class="right piles" id="spadesPile">S</div>
+                <div class="right piles" id="heartsPile"></div>
+                <div class="right piles" id="diamondsPile"></div>
+                <div class="right piles" id="clubsPile"></div>
+                <div class="right piles" id="spadesPile"></div>
             </div>
+    </div>
+    <div id="rules">
+        <p>
+            <span>Object of the Game</span>
+            </br>
+            The goal of the game is to move all of the cards to the "foundations" 
+            these are four additional stacks of cards. At the start of the game these 
+            stacks are empty. Each stack represents a suit (hearts, clubs, etc). They 
+            must be stacked by suit and in order, starting with the Ace, then the 2, 3, 4,…..
+            ending with the Queen and then King.
+        </p>
+        <p>
+            <span>Playing the Game</span>
+            </br>
+            Cards that are face up and showing may be moved from the stock pile or the columns 
+            to the foundation stacks or to other columns.
+            </br></br>
+            To move a card to a column, it must be one less in rank and the opposite color. 
+            For example, if it was a 9 of hearts (red), you could put an 8 of spades or clubs onto it. 
+            Stacks of cards may be moved from one column to another as long as they maintain the same order (highest to lowest, alternating colors).
+            </br></br>
+            If you get an empty column, you can start a new column with a King. Any new column must be started with a King (or a stack of cards that starts with a King).
+        </p>
     </div>
 </body>
 </html>
